@@ -148,3 +148,118 @@ VALUES (1, 'AARONSON', 'AARONSON FURNITURE LTDA', '2015-02-17', '17.807.928/0001
 INSERT INTO CLIENTE (id, nome_cliente, razao_social, dt_cadastro, cnpj, telefone, cidade, estado)
 VALUES ('0001', 'AARONSON', 'AARONSON FURNITURE LTDA', '2015-02-17', '17.807.928/0001-85', '(21) 8167-6584', 'MARINGA', 'PR');
 ```
+
+**11 -** Reescreva o código abaixo corrigindo o comando:
+>  **R:**  
+  ```sh
+UPDATE client
+SET name = 'FULANO DE TAL',
+    cnpj = '17807928000185'
+WHERE id = 3234;
+```
+
+**12 -** Você precisa montar um relatório para buscar os vendedores agrupados por nome, cliente e mostrando o total que cada um realizou de vendas por cliente. Para isso considere as seguintes tabelas:
+>  **R:** 
+
+**13 -** Utilizamos a função GROUP BY para agrupar informações iguais de determidas colunas. Com base nos seus conhecimentos a respeito da função GROUP BY, assinale o código correto:
+> - [x] Opção 1
+
+  ```sh
+     SELECT c.nome, sum(v.total_venda)
+     FROM cliente c
+     INNER JOIN vendas v on v.id_cliente = c.id
+     WHERE v.dt_venda > '01/01/2019'
+     GROUP BY c.nome
+     ORDER BY 1
+```
+> - [ ] Opção 2
+
+  ```sh
+     SELECT c.nome, sum(v.total_venda)
+     FROM cliente c
+     INNER JOIN vendas v on v.id_cliente = c.id
+     WHERE v.dt_venda > '01/01/2019'
+     ORDER BY c.nome
+     GROUP BY c.nome, c.telefone
+```
+> - [ ] Opção 3
+
+  ```sh
+     SELECT c.nome, sum(v.total_venda)
+     FROM cliente
+     INNER JOIN vendas v on v.id_cliente = c.id
+     WHERE v.dt_venda > '01/01/2019'
+     GROUP BY c.nome
+     ORDER BY nome
+```
+
+**14 -** Muitas vezes queremos buscar um registro no banco de dados mas não sabemos o termo completo que queremos consultar. Ex: Você foi instruído para consultar o nome de todos os clientes que possuem o texto "Souza" no nome. Para isso você recebeu o comando abaixo incorreto. Análise a consulta e reescreva da maneira correta.
+>  **R:** 
+  ```sh
+   SELECT nome
+   FROM cliente
+   WHERE nome like '%Souza%'
+```
+**15 -** A tabela "cliente" foi criada com a estrutura incorreta. Agora você precisa criar um comando para excluir essa tabela do banco de dados. Assinale a alternativa correta.
+> - [ ] Table delete cliente;
+> - [ ] Drop delete cliente;
+> - [ ] Delete table cliente;
+> - [x] Drop table cliente;
+> - [ ] Cliente drop table;
+
+**16 -** É muito comum termos a necessidade de buscar diversas informações utilizando um único comando. Ex: Precisamos trazer em uma única consulta todos os nomes dos clientes referentes aos ids "12", "10", "199", "18", "01", "2016". Construa uma consulta utilizando a tabela "cliente" e o campo "id"
+>  **R:** 
+  ```sh
+    SELECT *
+    FROM cliente
+    WHERE id IN (12, 10, 199, 18, 01, 2016);
+```
+**17 -** Dado que temos as duas tabelas abaixo:
+> - [ ] Opção 1
+ ```sh
+     SELECT c.nome, c.email
+     FROM cliente c
+     INNER JOIN vendas v on v.clienteID = c.id
+     WHERE v.dt_venda > '01/01/2019'
+     ORDER BY 1
+```
+> - [ ] Opção 2
+ ```sh
+     SELECT c.nome, c.email
+     FROM cliente c, vendas v
+     WHERE v.dt_venda > '01/01/2019'
+     AND v.clienteID = c.id
+     ORDER BY c.nome, c.dtcriacao
+ ```
+> - [ ] Opção 3
+ ```sh
+     SELECT c.nome, c.email
+     FROM cliente c, vendas v
+     WHERE v.dt_venda > '01/01/2019'
+     INNER JOIN on v.clienteID = c.id
+     AND v.clienteID = c.id
+     ORDER BY c.nome, c.dtcriacao
+ ```
+> - [ ] Opção 4
+ ```sh
+     SELECT c.nome, c.email
+     FROM cliente c, vendas v
+     WHERE dt_venda > '01/01/2019'
+     AND v.clienteID = c.id
+     ORDER BY c.nome, c.dtcriacao
+ ```
+
+**18 -** Analise o cenário:
+> Você tem um banco de dados com as tabelas abaixo:
+> > Após a criação das tabelas foram inseridos os seguintes registros:
+> > 
+> > O analista responsável pelo gerenciamento do banco de dados precisa excluir a tabela cliente. Levando em consideração o relacionamento entre as duas tabelas. Como seria o único comando que iria excluir a tabela cliente e vendas de uma só vez.
+>  **R:** 
+ ```sh
+DROP TABLE vendas, cliente;
+ ```
+
+**19 -** A tabela cliente do produto que você trabalha, possuí os seguintes campos:
+> Nome; Telefone; Email; Endereco; Cidade; Estado; Bairro.
+> 
+> Com o aumento da complexidade do produto, surgiu a necessidade de criar uma estrutura de tabelas para armazenar endereços que será utilizada por outras tabelas como usuario, fornecedor e funcionario. Sabendo disso, a sua missão é criar essa nova estrutura de tabelas de endereços que será utilizada nos demais locais do produto. Crie um modelo de dados no formato de DER com as tabelas dessa nova estrutura.
