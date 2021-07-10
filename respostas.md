@@ -110,11 +110,99 @@ CREATE TABLE AVARIA
 **3 -** Extrair um relatório do modelo de dados criado no exercício 1, utilizando 3 funções de agregação diferentes, e filtrando por pelo menos uma função agregadora;
 > * **R:**
 
+
+  ```sh
+SELECT MA.DESCRICAO,
+       MIN(A.QUILOMETROS_RODADOS) AS MENOSQUILOMETROS,
+       MAX(A.QUILOMETROS_RODADOS) AS MAISQUILOMETROS,
+       AVG(A.QUILOMETROS_RODADOS) AS MEDIAQUILOMETROS,
+       COUNT(MA.ID)               AS QTDPORMARCA
+FROM AUTOMOVEL A
+         JOIN MODELO MO ON MO.ID = A.ID_MODELO
+         JOIN MARCA MA ON MA.ID = MO.ID_MARCA
+GROUP BY MA.DESCRICAO
+HAVING COUNT(MA.ID) > 2;
+```
 **4 -** Criar uma query hierárquica, ordenando os registros por uma coluna específica;
 > * **R:**
 
+  ```sh
+ALTER TABLE MARCA
+    ADD ID_MARCA_PAI INT;
+
+ALTER TABLE MARCA
+    ADD FOREIGN KEY (ID_MARCA_PAI) REFERENCES MARCA (ID);
+
+INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (1, 'GM', null);
+INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (2, 'BMW', null);
+INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (3, 'Audi', null);
+INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (4, 'FIAT', null);
+INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (5, 'Ferrari', 4);
+
+SELECT M.ID,
+       M.DESCRICAO,
+       M.ID_MARCA_PAI,
+       LEVEL
+FROM MARCA M
+START WITH M.ID_MARCA_PAI IS NULL
+CONNECT BY PRIOR ID = ID_MARCA_PAI
+order SIBLINGS by DESCRICAO;
+```
 **5 -** Realize 5 consultas no modelo de dados criado no exercício 1, realizando pelo menos uma das seguintes operações: Union, Intersect, Minus, e utilizando pelo menos 3 tipos diferentes de joins;
 > * **R:**
+> > Consulta 1
+  ```sh
+  SELECT USUARIO.NOME, USUARIO.EMAIL, CID.DESCRICAO
+FROM USUARIO
+RIGHT JOIN CIDADE CID ON CID.ID = USUARIO.ID_CIDADE;
+```
+> > Consulta 2
+  ```sh
+SELECT NOME, DATA, TIPO
+FROM (
+         SELECT USUARIO.NOME, E.DT_RETIRADA AS DATA, 'EMPRÉSTIMO' AS TIPO
+         FROM USUARIO
+                  INNER JOIN EMPRESTIMO E ON USUARIO.ID = E.ID_USUARIO_REQUISITOR
+         UNION
+         SELECT USUARIO.NOME, V.DT_VISTORIA AS DATA, 'VISTORIA' AS TIPO
+         FROM USUARIO
+                  INNER JOIN VISTORIA V ON USUARIO.ID = V.ID_USUARIO);
+```
+> > Consulta 3
+  ```sh
+SELECT USUARIO.NOME, E.FINALIDADE, E.DT_RETIRADA
+FROM USUARIO
+         LEFT JOIN EMPRESTIMO E on USUARIO.ID = E.ID_USUARIO_REQUISITOR;
+```
+> > Consulta 4
+  ```sh
+
+SELECT NOME, DATA
+FROM (
+         SELECT USUARIO.NOME, TRUNC(E.DT_RETIRADA) AS DATA
+         FROM USUARIO
+                  INNER JOIN EMPRESTIMO E ON USUARIO.ID = E.ID_USUARIO_REQUISITOR
+         INTERSECT
+         SELECT USUARIO.NOME, TRUNC(V.DT_VISTORIA) AS DATA
+         FROM USUARIO
+                  INNER JOIN VISTORIA V ON USUARIO.ID = V.ID_USUARIO);
+```
+> > Consulta 5
+  ```sh
+
+
+SELECT NOME, DATA, CIDADE
+FROM (
+         SELECT USUARIO.NOME, TRUNC(E.DT_RETIRADA) AS DATA, C2.DESCRICAO AS CIDADE
+         FROM USUARIO
+                  INNER JOIN EMPRESTIMO E ON USUARIO.ID = E.ID_USUARIO_REQUISITOR
+                  INNER JOIN CIDADE C2 on C2.ID = USUARIO.ID_CIDADE
+         MINUS
+         SELECT USUARIO.NOME, TRUNC(V.DT_VISTORIA) AS DATA, C2.DESCRICAO AS CIDADE
+         FROM USUARIO
+                  INNER JOIN VISTORIA V ON USUARIO.ID = V.ID_USUARIO
+                  INNER JOIN CIDADE C2 on C2.ID = USUARIO.ID_CIDADE) WHERE CIDADE = 'Dois Vizinhos';
+```
 
 **6 -** O que são os comandos DML?
 > - [x] Linguagem de Manipulação de Dados: Esses comandos indicam uma ação para o SGBD executar. Utilizados para recuperar, inserir e modificar um registro no banco de dados. Seus comandos são: INSERT, DELETE, UPDATE, SELECT e LOCK;
