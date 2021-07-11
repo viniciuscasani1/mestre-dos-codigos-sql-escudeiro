@@ -310,7 +310,7 @@ GROUP BY VENDEDOR.NOME, C2.NOME;
     WHERE id IN (12, 10, 199, 18, 01, 2016);
 ```
 **17 -** Dado que temos as duas tabelas abaixo:
-> - [ ] Opção 1
+> - [x] Opção 1
  ```sh
      SELECT c.nome, c.email
      FROM cliente c
@@ -362,3 +362,56 @@ DROP TABLE vendas, cliente;
 
 **20 -** Com base no modelo anterior de endereços, crie os códigos DDL para criação das tabelas e os cuidados tomados com normalização e com a criação de índices;
 >  **R:** 
+```sh
+
+CREATE TABLE ENDERECO
+(
+    ID       INT PRIMARY KEY,
+    ENDERECO VARCHAR(200) NOT NULL,
+    CIDADE   VARCHAR(100) NOT NULL,
+    ESTADO   VARCHAR(50)  NOT NULL,
+    BAIRRO   VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE CLIENTE
+(
+    ID          INT PRIMARY KEY,
+    NOME        VARCHAR(250) NOT NULL,
+    TELEFONE    VARCHAR(20)  NOT NULL,
+    EMAIL       VARCHAR(100) NOT NULL,
+    ID_ENDERECO INT          NOT NULL,
+    FOREIGN KEY (ID_ENDERECO) REFERENCES ENDERECO (ID)
+);
+
+
+CREATE TABLE USUARIO
+(
+    ID          INT PRIMARY KEY,
+    NOME        VARCHAR(250) NOT NULL,
+    TELEFONE    VARCHAR(20)  NOT NULL,
+    EMAIL       VARCHAR(100) NOT NULL,
+    ID_ENDERECO INT          NOT NULL,
+    FOREIGN KEY (ID_ENDERECO) REFERENCES ENDERECO (ID)
+);
+
+CREATE TABLE FUNCIONARIO
+(
+    ID          INT PRIMARY KEY,
+    NOME        VARCHAR(250) NOT NULL,
+    TELEFONE    VARCHAR(20)  NOT NULL,
+    EMAIL       VARCHAR(100) NOT NULL,
+    ID_ENDERECO INT          NOT NULL,
+    FOREIGN KEY (ID_ENDERECO) REFERENCES ENDERECO (ID)
+);
+
+
+CREATE TABLE FORNECEDOR
+(
+    ID          INT PRIMARY KEY,
+    NOME        VARCHAR(250) NOT NULL,
+    TELEFONE    VARCHAR(20)  NOT NULL,
+    EMAIL       VARCHAR(100) NOT NULL,
+    ID_ENDERECO INT          NOT NULL,
+    FOREIGN KEY (ID_ENDERECO) REFERENCES ENDERECO (ID)
+);
+ ```
