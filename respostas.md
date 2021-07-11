@@ -248,6 +248,13 @@ WHERE id = 3234;
 
 **12 -** Você precisa montar um relatório para buscar os vendedores agrupados por nome, cliente e mostrando o total que cada um realizou de vendas por cliente. Para isso considere as seguintes tabelas:
 >  **R:** 
+```sh
+SELECT VENDEDOR.NOME, C2.NOME AS NOME_CLIENTE, SUM(V.TOTALVENDA) AS TOTAL_VENDA
+FROM VENDEDOR
+         JOIN VENDAS V ON VENDEDOR.ID = V.VENDEDORID
+         JOIN CLIENTE C2 ON V.CLIENTEID = C2.ID
+GROUP BY VENDEDOR.NOME, C2.NOME;
+```
 
 **13 -** Utilizamos a função GROUP BY para agrupar informações iguais de determidas colunas. Com base nos seus conhecimentos a respeito da função GROUP BY, assinale o código correto:
 > - [x] Opção 1
