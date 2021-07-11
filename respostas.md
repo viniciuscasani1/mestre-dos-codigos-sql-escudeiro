@@ -1,4 +1,5 @@
 # Mestre dos códigos SQL - Escudeiro
+> Os comandos SQL foram criados e executados em um banco de dados oracle versão 19, com exceção da questão 18 a qual foi executada em um banco de dados postgre
 
 **1 -** Crie um modelo de dados no formato de DER contendo pelo menos 10 tabelas, sendo que pelo menos uma tabela deve conter chave composta; Criar ligações entre as tabelas com relacionamentos N:N e 1:N.
 > * **R:** ![](questao1.png)
