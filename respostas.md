@@ -134,12 +134,6 @@ ALTER TABLE MARCA
 ALTER TABLE MARCA
     ADD FOREIGN KEY (ID_MARCA_PAI) REFERENCES MARCA (ID);
 
-INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (1, 'GM', null);
-INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (2, 'BMW', null);
-INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (3, 'Audi', null);
-INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (4, 'FIAT', null);
-INSERT INTO MARCA (ID, DESCRICAO, ID_MARCA_PAI) VALUES (5, 'Ferrari', 4);
-
 SELECT M.ID,
        M.DESCRICAO,
        M.ID_MARCA_PAI,
@@ -350,7 +344,8 @@ GROUP BY VENDEDOR.NOME, C2.NOME;
 > > Após a criação das tabelas foram inseridos os seguintes registros:
 > > 
 > > O analista responsável pelo gerenciamento do banco de dados precisa excluir a tabela cliente. Levando em consideração o relacionamento entre as duas tabelas. Como seria o único comando que iria excluir a tabela cliente e vendas de uma só vez.
->  **R:** 
+>
+>    **R:** Obs: Esta questão foi executada em um banco de dados postgre
  ```sh
 DROP TABLE vendas, cliente;
  ```
